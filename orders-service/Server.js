@@ -15,7 +15,7 @@ class Server {
     }
 
     start() {
-        const port = process.env.NODE_SERVER_POST || 2000;
+        const port = process.env.NODE_SERVER_POST || 3000;
         const host = process.env.NODE_SERVER_HOST || "localhost";
 
         // initialize routes

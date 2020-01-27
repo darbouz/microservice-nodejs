@@ -50,7 +50,7 @@ class QueryHandler {
     deleteProduct(req) {
         return new Promise(async (resolve, reject) => {
             const Product = await this.cluster.connect();
-            Product.findOneAndRemove(req.params.id)
+            Product.findOneAndRemove({ _id: req.params.id })
                 .then(result => {
                     resolve(result);
                 })

@@ -32,6 +32,33 @@ class QueryHandler {
                 });
         });
     }
+
+    getCustomer(req) {
+        return new Promise(async (resolve, reject) => {
+            const Customer = await this.cluster.connect();
+            Customer.findById(req.params.id)
+                .then(customer => {
+                    if (customer) resolve(customer);
+                    else resolve(res.sendStatus(404));
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+    }
+
+    deleteCustomer(req) {
+        return new Promise(async (resolve, reject) => {
+            const Customer = await this.cluster.connect();
+            Customer.findOneAndRemove({ _id: req.params.id })
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(err => {
+                    reject("this error form deleteCustomer" + err);
+                });
+        });
+    }
 }
 
 module.exports = new QueryHandler();
