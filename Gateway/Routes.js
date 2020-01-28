@@ -1,4 +1,8 @@
-const handler = require("./handlers/RouteHandler");
+const httpProxy = require('express-http-proxy');
+const Util = require('./utils');
+const customerProxy = httpProxy('http://localhost:4000');
+const productProxy = httpProxy('http://localhost:2000');
+const orderProxy = httpProxy('http://localhost:3000');
 
 class Routes {
     constructor(app) {
@@ -6,10 +10,20 @@ class Routes {
     }
 
     init() {
-        this.app.get("/customers", handler.getCustomers);
-        this.app.post("/customers/add", handler.saveCustomer);
-        this.app.get("/customer/:id", handler.getCustomer);
-        this.app.delete("/customer/:id", handler.deleteCustomer);
+        this.app.get('/customers-service/*', (req, res) => {
+            req.url = Util.subUri(req.url);
+            customerProxy(req,res);
+        })
+
+        this.app.get('/product-service/*', (req, res) => {
+            req.url = Util.subUri(req.url);
+            productProxy(req,res);
+        })
+
+        this.app.get('/order-service/*', (req, res) => {
+            req.url = Util.subUri(req.url);
+            orderProxy(req,res);
+        })
     }
 }
 

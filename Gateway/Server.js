@@ -2,7 +2,6 @@ const express = require('express');
 const http = require('http');
 
 const Routes = require('./Routes');
-const AppConfig = require('./Config/app');
 
 class Server {
     constructor() {
@@ -10,12 +9,8 @@ class Server {
         this.http = http.Server(this.app);
     }
 
-    configApp(){
-        new AppConfig(this.app).includeBodyParser();
-    }
-
     start() {
-        const port = process.env.NODE_SERVER_POST || 4000;
+        const port = process.env.NODE_SERVER_POST || 8000;
         const host = process.env.NODE_SERVER_HOST || 'localhost';
 
         // initialize routes
